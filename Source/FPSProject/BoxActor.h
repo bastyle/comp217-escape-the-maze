@@ -22,10 +22,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
-	class UBoxComponent* CollisionBox;
-
-	UFUNCTION()
-	void OnOverlapBegin()
+	
 };

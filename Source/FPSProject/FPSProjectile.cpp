@@ -20,9 +20,9 @@ AFPSProjectile::AFPSProjectile()
         // Set the sphere's collision profile name to "Projectile".
         CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
         // Event called when component hits something.
-        CollisionComponent->OnComponentHit.AddDynamic(this, &AFPSProjectile::OnHit);
+        //CollisionComponent->OnComponentHit.AddDynamic(this, &AFPSProjectile::OnHit);
         // Set the sphere's collision radius.
-        CollisionComponent->InitSphereRadius(15.0f);
+        CollisionComponent->InitSphereRadius(5.0f);
         // Set the root component to be the collision component.
         RootComponent = CollisionComponent;
     }
@@ -67,7 +67,8 @@ AFPSProjectile::AFPSProjectile()
 void AFPSProjectile::BeginPlay()
 {
     Super::BeginPlay();
-
+    CollisionComponent->OnComponentHit.AddDynamic(this, &AFPSProjectile::OnHit);
+    //CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AFPSProjectile::OnOverelap);
 }
 
 // Called every frame
@@ -78,7 +79,8 @@ void AFPSProjectile::Tick(float DeltaTime)
 }
 
 void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
-{
+{               
+    GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Green, TEXT("OnHit!"));
     if (OtherActor != nullptr && OtherActor != this && OtherComponent != nullptr && OtherComponent->IsSimulatingPhysics())
     {
         OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
@@ -91,4 +93,15 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor
 void AFPSProjectile::FireInDirection(const FVector& ShootDirection)
 {
     ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
+}
+
+void AFPSProjectile::OnOverelap(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int otherBodyIndex, bool fromsweep, const FHitResult& Hit)
+{
+    UE_LOG(LogTemp, Error, TEXT("It's overlaped!!"));
+    GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Green, TEXT("overlaped!"));
+
+    if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
+    {
+        OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 1000.0f, Hit.ImpactPoint);
+    }
 }

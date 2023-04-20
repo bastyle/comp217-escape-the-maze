@@ -29,6 +29,9 @@ public:
     UFUNCTION()
         void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
+    UFUNCTION()
+        void OnOverelap(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int otherBodyIndex, bool fromsweep, const FHitResult& Hit);
+
     // Sphere collision component
     UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
         USphereComponent* CollisionComponent;

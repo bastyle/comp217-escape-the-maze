@@ -48,7 +48,7 @@ void AFPSCharacter::BeginPlay()
     {
         // Display a debug message for five seconds.
         // The -1 "Key" value argument prevents the message from being updated or refreshed.
-        GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We are using FPSCharacter."));
+        GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, TEXT("We are using FPSCharacter."));
     }
 }
 
@@ -104,6 +104,8 @@ void AFPSCharacter::StopJump()
 
 void AFPSCharacter::Fire()
 {
+    GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::White, TEXT("Fire!!"));
+    //GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We are using FPSCharacter."));
     // Attempt to fire a projectile.
     if (ProjectileClass)
     {
